@@ -23,6 +23,25 @@ public class SecurityConfig {
 //                .antMatchers("/login**").permitAll()
                 .anyRequest().authenticated();
 
+        //UsernamePasswordAuthenticationFilter로 디버깅
+        http.formLogin()
+//                .loginPage("/login")
+                .defaultSuccessUrl("/")
+                .failureUrl("/login")
+                .usernameParameter("userId")
+                .passwordParameter("passwd")
+                .loginProcessingUrl("/loginProc")
+                .successHandler((request, response, authentication) -> {
+                    System.out.println("authentication  : " + authentication);
+                    response.sendRedirect("/");
+                })
+                .failureHandler((request, response, exception) -> {
+                    System.out.println("exception : " + exception.getMessage());
+//                    response.sendRedirect("/login?error=true");
+                    response.sendRedirect("/login");
+                })
+                .permitAll();
+
         return http.build();
     }
 }
