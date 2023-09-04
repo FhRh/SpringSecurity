@@ -23,21 +23,11 @@ public class SecurityConfig {
 //                .antMatchers("/login**").permitAll()
                 .anyRequest().authenticated();
 
-        http.logout()
-//                .logoutUrl("/logoutexe")
-                .logoutSuccessUrl("/login")
-                .deleteCookies("JSESSIONID")
-                .addLogoutHandler((request, response, authentication) -> {
-                    HttpSession session = request.getSession();
-                    session.invalidate();
-                    SecurityContext context = SecurityContextHolder.getContext();
-                    SecurityContextHolder.clearContext();
-                    context.setAuthentication(null);
-                })
-                .logoutSuccessHandler((request, response, authentication) -> {
-                    System.out.println("logout is succeed");
-                    response.sendRedirect("/login");
-                });
+        http.rememberMe()
+                .rememberMeParameter("remember") // 기본 파라미터명은 remember-me
+                .tokenValiditySeconds(3600) // Default 는 14일
+                .alwaysRemember(false)       // 리멤버 미 기능이 활성화되지 않아도 항상 실행
+                .userDetailsService(userDetailsService);
 
         return http.build();
     }
