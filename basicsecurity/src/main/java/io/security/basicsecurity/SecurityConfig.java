@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,11 +24,19 @@ public class SecurityConfig {
 //                .antMatchers("/login**").permitAll()
                 .anyRequest().authenticated();
 
-        http.rememberMe()
-                .rememberMeParameter("remember") // 기본 파라미터명은 remember-me
-                .tokenValiditySeconds(3600) // Default 는 14일
-                .alwaysRemember(false)       // 리멤버 미 기능이 활성화되지 않아도 항상 실행
-                .userDetailsService(userDetailsService);
+        http.sessionManagement()
+//                .invalidSessionUrl("/invaild")
+                //.expireUrl("/expired")
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(true) // 동시접속 차단
+                .and()
+                .sessionFixation().changeSessionId()
+
+                //SessionManagementConfigurer.init()
+                //시큐리티가 세션을 생성하지 않고 사용하지 않는 것
+                //CsrfFilter, HttpSessionCsrfTokenRepository
+                .sessionCreationPolicy(SessionCreationPolicy.NEVER)
+        ;
 
         return http.build();
     }
