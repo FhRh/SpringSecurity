@@ -23,6 +23,8 @@ public class SecurityConfig {
 //                .antMatchers("/login**").permitAll()
                 .anyRequest().authenticated();
 
+        http.formLogin();
+
         http.logout()
 //                .logoutUrl("/logoutexe")
                 .logoutSuccessUrl("/login")
