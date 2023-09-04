@@ -24,6 +24,8 @@ public class SecurityConfig {
 //                .antMatchers("/login**").permitAll()
                 .anyRequest().authenticated();
 
+        http.formLogin();
+
         http.sessionManagement()
 //                .invalidSessionUrl("/invaild")
                 //.expireUrl("/expired")
