@@ -23,6 +23,8 @@ public class SecurityConfig {
 //                .antMatchers("/login**").permitAll()
                 .anyRequest().authenticated();
 
+        http.formLogin();
+
         http.rememberMe()
                 .rememberMeParameter("remember") // 기본 파라미터명은 remember-me
                 .tokenValiditySeconds(3600) // Default 는 14일
