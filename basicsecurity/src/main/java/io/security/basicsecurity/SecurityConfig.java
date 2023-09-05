@@ -2,6 +2,7 @@ package io.security.basicsecurity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -19,12 +20,27 @@ import java.util.Arrays;
 public class SecurityConfig {
 
     @Bean
+    @Order(1)
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+                .anyRequest().permitAll();
+        http
+                .formLogin();
+
+
+        return http.build();
+    }
+
+    @Bean
+    @Order(0)
+    SecurityFilterChain securityFilterChain2(HttpSecurity http) throws Exception {
+        http
+                .antMatcher("/api/**")
+                .authorizeRequests()
                 .anyRequest().authenticated();
 
-        http.formLogin();
+        http.httpBasic();
 
         return http.build();
     }

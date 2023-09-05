@@ -11,4 +11,9 @@ public class IndexController {
         return "index";
     }
 
+    @GetMapping("/api")
+    public String api(){
+        return "api";
+    }
+
 }
