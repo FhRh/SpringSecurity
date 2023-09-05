@@ -20,27 +20,13 @@ import java.util.Arrays;
 public class SecurityConfig {
 
     @Bean
-    @Order(1)
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .anyRequest().permitAll();
+                .anyRequest().authenticated();
         http
                 .formLogin();
 
-
-        return http.build();
-    }
-
-    @Bean
-    @Order(0)
-    SecurityFilterChain securityFilterChain2(HttpSecurity http) throws Exception {
-        http
-                .antMatcher("/api/**")
-                .authorizeRequests()
-                .anyRequest().authenticated();
-
-        http.httpBasic();
 
         return http.build();
     }
