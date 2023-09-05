@@ -11,21 +11,4 @@ public class IndexController {
         return "index";
     }
 
-    @GetMapping("/user")
-    public String user(){
-        return "user";
-    }
-
-    @GetMapping("/admin")
-    public String admin(){
-        return "admin";
-    }
-
-    @GetMapping("/admin/pay")
-    public String adminpay(){
-        return "adminpay";
-    }
-
-
-
 }
